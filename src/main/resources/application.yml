@@ -21,8 +21,9 @@ spring:
   main:
     allow-circular-references: true  #允许循环引用
   #静态文件地址
-  resources:
-    static-locations: classpath:static/,file:static/
+  web:
+    resources:
+      static-locations: classpath:static/,file:static/
     #模板设置
   thymeleaf:
     cache: false
