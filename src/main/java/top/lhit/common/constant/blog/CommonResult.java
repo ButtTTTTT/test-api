@@ -1,5 +1,4 @@
-package top.lhit.common.utils;
-
+package top.lhit.common.constant.blog;
 import com.baomidou.mybatisplus.extension.api.IErrorCode;
 import lombok.Data;
 

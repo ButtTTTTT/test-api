@@ -4,9 +4,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- * @project baidamei
- * @author cevencheng <cevencheng@gmail.com>
- * @create 2012-11-15 下午4:54:42
+ * @project unknn
+ * @author unknn
  */
 public class RegexUtils {
  

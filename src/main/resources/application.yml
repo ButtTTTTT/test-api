@@ -16,25 +16,128 @@ server:
       max: 10
       # Tomcat启动初始化的线程数，默认值10
       min-spare: 5
-  #设置会话时间
-  servlet:
-    session:
-      #Session超时时间设置为2小时，单位是秒，默认是30分钟
-      timeout: 12000
+#spring框架配置开始
 spring:
+  main:
+    allow-circular-references: true  #允许循环引用
   #静态文件地址
   resources:
     static-locations: classpath:static/,file:static/
     #模板设置
   thymeleaf:
     cache: false
-    #数据源
+  mvc:
+    #隐藏方法名
+    hiddenmethod:
+      #过滤开始
+      filter:
+        #配置
+        enabled: true
   datasource:
-    url: jdbc:mysql://127.0.0.1:3306/testApi?useUnicode=true&characterEncoding=utf-8&serverTimezone=Asia/Shanghai&zeroDateTimeBehavior=CONVERT_TO_NULL
-    username: root
-    password: root
+    #数据库连接池类型
     type: com.alibaba.druid.pool.DruidDataSource
-    driver-class-name: com.mysql.cj.jdbc.Driver
+    #数据库驱动
+    driverClassName: com.mysql.cj.jdbc.Driver
+    #druid 配置开始
+    druid:
+      # 主库数据源
+      master:
+        url: jdbc:mysql://39.101.142.240:3306/testApi?useUnicode=true&characterEncoding=utf-8&serverTimezone=Asia/Shanghai&zeroDateTimeBehavior=CONVERT_TO_NULL
+        #数据库用户名
+        username: root
+        #druid 密码加密
+        password: ccpQybBIbY7YrcoKxdxM2Dg3e6kmf5d/EazF6EuHKvROhtX6K/XJa16LORLYkPCOZIlUpHmE9QSEyspdeI3EQA==
+        connect-properties:
+          #配置是否加密密码
+          config.decrypt: true
+          #解密密钥
+          config.decrypt.key: MFwwDQYJKoZIhvcNAQEBBQADSwAwSAJBAIBMoDsXjB5BnHsN06zaoOHeVjp5YR0UvmOb05iqVnRwTHM/vkmfVC6mXexuQPrbxAuUe8cMqTVxYUu0WjCUFX8CAwEAAQ==
+      # 从库数据源
+      slave:
+        # 从数据源开关/默认关闭
+        enabled: false
+        url:
+        username:
+        password:
+      # 初始连接数
+      initialSize: 5
+      # 最小连接池数量
+      minIdle: 10
+      # 最大连接池数量
+      maxActive: 20
+      # 配置获取连接等待超时的时间
+      maxWait: 60000
+      # 配置连接超时时间
+      connectTimeout: 30000
+      # 配置网络超时时间
+      socketTimeout: 60000
+      # 配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒
+      timeBetweenEvictionRunsMillis: 60000
+      # 配置一个连接在池中最小生存的时间，单位是毫秒
+      minEvictableIdleTimeMillis: 300000
+      # 配置一个连接在池中最大生存的时间，单位是毫秒
+      maxEvictableIdleTimeMillis: 900000
+      # 配置检测连接是否有效
+      validationQuery: SELECT 1 FROM DUAL
+
+      testWhileIdle: true
+
+      testOnBorrow: false
+
+      testOnReturn: false
+
+      webStatFilter:
+        enabled: true
+      statViewServlet:
+        enabled: true
+        # 设置白名单，不填则允许所有访问
+        allow:
+        url-pattern: /druid/*
+        # 控制台管理用户名和密码
+        login-username: root
+        login-password: root
+      filter:
+        config:
+          #是否配置数据库密码加密
+          enabled: true
+        stat:
+          enabled: true
+          # 慢SQL记录
+          log-slow-sql: true
+          slow-sql-millis: 1000
+          merge-sql: true
+        wall:
+          config:
+            multi-statement-allow: true
+  #redis缓存配置  由于是用的spring-boot-starter-data-redis 所以在spring 下一级
+  redis:
+    # 地址
+    host: 39.101.142.240
+    # 端口，xxxxx默认为6379
+    port: 6379
+    # 数据库索引
+    database: 9
+    # 密码
+    password:
+    # 连接超时时间
+    timeout: 5s
+    #redis 连接池lettuce
+    lettuce:
+      pool:
+        # 连接池中的最小空闲连接
+        min-idle: 0
+        # 连接池中的最大空闲连接
+        max-idle: 8
+        # 连接池的最大数据库连接数
+        max-active: 8
+        # #连接池最大阻塞等待时间（使用负值表示没有限制）
+        max-wait: -1ms
+  #消息队列配置 rabbitmq 由于是用的spring-boot-starter-amqp 所以在sping下一级
+#  rabbitmq:
+#    addresses: xxxxxxxx
+#    port: 5672
+#    username:
+#    password:
 ##模板插件
 #  freemarker:
 #    # 设置模板后缀名
@@ -47,7 +150,7 @@ spring:
 #    cache: true
 #    settings:
 #      number_format: 0.##
-#      #mp 配置
+#      #mp 配置就不需要配置  mybatis配置
 mybatis-plus:
   type-aliases-package: top.lhit.module.entity
   configuration:
@@ -56,7 +159,7 @@ mybatis-plus:
     map-underscore-to-camel-case: true
     #自动映射行为
     auto-mapping-behavior: full
-
+  #映射文件路径
   mapper-locations: classpath*:mapper/**/*Mapper.xml
   global-config:
     banner: false
@@ -66,6 +169,10 @@ mybatis-plus:
       logic-not-delete-value: 1
       logic-delete-value: 0
 logging:
+  #配置规则 正则配置
+  pattern:
+    #console规则
+    console: "[%thread] %-5level %logger{36} - %msg%n"
   level:
     root: info #日志配置DEBUG,INFO,WARN,ERRO
   file:

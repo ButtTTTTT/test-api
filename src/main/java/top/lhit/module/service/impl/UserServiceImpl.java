@@ -2,14 +2,13 @@ package top.lhit.module.service.impl;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import top.lhit.common.utils.CommonResult;
+import top.lhit.common.constant.blog.CommonResult;
 import top.lhit.module.entity.User;
 import top.lhit.module.mapper.UserMapper;
 import top.lhit.module.service.IUserService;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionStage;
-
 @Service
 public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IUserService {
     @Autowired

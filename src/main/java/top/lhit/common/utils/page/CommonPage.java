@@ -1,4 +1,4 @@
-package top.lhit.common.utils;
+package top.lhit.common.utils.page;
 
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
