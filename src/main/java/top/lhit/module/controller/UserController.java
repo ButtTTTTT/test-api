@@ -22,6 +22,9 @@ public class UserController {
     @ResponseBody
     @GetMapping("/query/list")
     public CompletionStage<CommonResult> userQuery() {
+
+        log.info("/user/query/list : get  ====>");
+
         return userService.listUser();
     }
     @ResponseBody
