@@ -1,4 +1,4 @@
-package top.lhit.mall.framework.config;
+package top.lhit.framework.config;
 
 import com.alibaba.druid.pool.DruidDataSource;
 import com.alibaba.druid.spring.boot.autoconfigure.DruidDataSourceBuilder;
